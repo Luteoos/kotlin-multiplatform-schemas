@@ -87,3 +87,19 @@
         }
     }
     ```
+3. ## Kotlin new memory model
+   - add to `gradle.properties` 
+    ```properties
+    # enable new MemModel - no object lock for thread
+    kotlin.native.binary.memoryModel=experimental
+    kotlin.native.binary.freezing=disabled
+    ```
+   -  add to Kotlin multiplatform module `build.gradle.kts`
+   ```kotlin
+   kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
+        binaries.all {
+            binaryOptions["memoryModel"] = "experimental"
+            binaryOptions["freezing"] = "disabled"
+        }
+    }
+   ```
