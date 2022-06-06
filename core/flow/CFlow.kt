@@ -1,5 +1,5 @@
 /**
- * package dev.github.luteoos.core
+ * package dev.luteoos.core
  */
 
 import kotlinx.coroutines.CoroutineScope
