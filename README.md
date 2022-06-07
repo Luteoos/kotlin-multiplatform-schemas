@@ -1,5 +1,17 @@
 # KMM Schemas
 
+## Overview
+- [buildSrc](#buildsrc)
+- [Kotlin New Memory Model](#kotlin-new-memory-model)
+- [CFlow.kt](#coreflowcflowkt)
+- [KHandler.kt](#coreflowkhandlerkt)
+- [Koin.kt](#coredikoinkt)
+- [KController.kt](#corekcontrollerkt)
+
+## Useful plugins
+- [Kotlin Multiplatform Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
+- [Xcode Kotlin](https://github.com/touchlab/xcode-kotlin)
+  
 1. ## `buildSrc`
 
     Folder structure for adding dependencies to Kotlin project via class `Dependencies.kt`
@@ -158,7 +170,8 @@
         }
     }
     ```
-6. ## **in-progress** `core/KController.kt` 
+6. ## `core/KController.kt` 
+   **in-progress**
    *ViewController/ViewModel* base `class`
     
     ### Dependencies
@@ -170,4 +183,3 @@
     implementation("com.badoo.reaktive:reaktive:<badoo_reaktive_version>")
     implementation("com.badoo.reaktive:coroutines-interop:<badoo_reaktive_version>")
     ```
-    
