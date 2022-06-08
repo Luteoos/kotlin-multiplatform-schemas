@@ -11,6 +11,7 @@
 ## Useful plugins
 - [Kotlin Multiplatform Plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
 - [Xcode Kotlin](https://github.com/touchlab/xcode-kotlin)
+- [moko-KSwift](https://github.com/icerockdev/moko-kswift) - autogenerate `Enum` for `sealed class`
   
 1. ## `buildSrc`
 

@@ -17,9 +17,16 @@ abstract class KController : KoinComponent {
     open fun onStart() {
     }
 
-    open fun onDestroy() {
+    open fun onStop(){
         disposeBag.clear()
-        kcontrollerScope.coroutineContext.cancel(CancellationException("${this::class.simpleName} onDestroy() invoked"))
+    }
+
+    /**
+     * closes [kcontrollerScope] and renders it inactive
+     */
+    protected open fun onDeInit() {
+        disposeBag.clear()
+        kcontrollerScope.coroutineContext.cancel(CancellationException("${this::class.simpleName} onDeInit() invoked"))
     }
 
     protected fun start(disposable: Disposable) {
