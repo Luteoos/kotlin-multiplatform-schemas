@@ -13,7 +13,9 @@
 - [Xcode Kotlin](https://github.com/touchlab/xcode-kotlin)
 - [moko-KSwift](https://github.com/icerockdev/moko-kswift) - autogenerate `Enum` for `sealed class`
   
-1. ## `buildSrc`
+## Sources
+
+- ## `buildSrc`
 
     Folder structure for adding dependencies to Kotlin project via class `Dependencies.kt`
 
@@ -55,7 +57,7 @@
         }
     }
    ```
-3. ## `core/flow/CFlow.kt` 
+- ## `core/flow/CFlow.kt` 
     [source](https://github.com/Kotlin/kmm-production-sample/blob/635ae763f7e666d25827f8e221672020063e617f/shared/src/iosMain/kotlin/com/github/jetbrains/rssreader/core/CFlow.kt)
 
     Contains `CFlow<T>` - wrapper for `kotlinx.coroutines.Flow` for mapping complex generic `<T>` in *iOS* code
@@ -116,7 +118,7 @@
         }
     }
     ```
-4. ## `core/flow/KHandler.kt`
+- ## `core/flow/KHandler.kt`
     
     *Kotlin Native* implementation of `Handler` known from *JVM* for easy logic delay
     ### Dependencies
@@ -135,7 +137,7 @@
     .getJob() // returns currently running Job or null
     .setDispatcher(Dispatcher) // call before postDelayed to change execution Dispatcher
     ```
-5. ## `core/di/Koin.kt`
+- ## `core/di/Koin.kt`
    [source](https://github.com/joreilly/PeopleInSpace/commit/e317d84dd0e466b454cf334604d210c88baa877d)
 
    `Koin.kt` - file with two `fun initKoin()`
@@ -171,7 +173,32 @@
         }
     }
     ```
-6. ## `core/KController.kt` 
+
+- ## `core/rx/RxExtensions.kt`
+    
+    Extension methods for easier subscription to reaktive streams such as `Observable`, `Single`, `Completable`
+    ### Dependencies
+    ```kotlin
+    // <badoo_reaktive_version = 3.2.0>
+    implementation("com.badoo.reaktive:reaktive:<badoo_reaktive_version>")
+    ```
+    ### How to use
+    ```kotlin
+    SomeObservable<T>().resolve(
+        onNext = {  },
+        onError = {  },
+        onComplete = {  }
+    )
+
+    //or
+
+    SomeObservable<T>().resolve{
+        //it...
+    }
+    
+    ```
+   
+- ## `core/KController.kt` 
    **in-progress**
    *ViewController/ViewModel* base `class`
     
