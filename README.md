@@ -201,6 +201,7 @@
 - ## `core/KController.kt` 
    **in-progress**
    *ViewController/ViewModel* base `class`
+   - `protected fun` seems to **not** be respected in `Swift`
     
     ### Dependencies
     ```kotlin

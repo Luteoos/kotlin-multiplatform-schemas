@@ -24,7 +24,7 @@ abstract class KController : KoinComponent {
     /**
      * closes [kcontrollerScope] and renders it inactive
      */
-    protected open fun onDeInit() {
+    open fun onDeInit() {
         disposeBag.clear()
         kcontrollerScope.coroutineContext.cancel(CancellationException("${this::class.simpleName} onDeInit() invoked"))
     }
