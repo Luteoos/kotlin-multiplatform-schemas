@@ -8,16 +8,29 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
-abstract class KController : KoinComponent {
+/**
+ * Base Controller class simplifies [State] publishing and handling Rx flows
+ * @author [Luteoos](http://luteoos.dev)
+ */
+abstract class KController<stateData, stateError> : KoinComponent {
+
     protected val disposeBag: CompositeDisposable = CompositeDisposable()
     protected val kcontrollerScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+    protected abstract val state: MutableStateFlow<State<stateData, stateError>>
+
+    fun getStateFlow(): StateFlow<State<stateData, stateError>> = state
+
+    fun wrapState() = state.wrap()
 
     open fun onStart() {
     }
 
-    open fun onStop(){
+    open fun onStop() {
         disposeBag.clear()
     }
 
@@ -31,5 +44,14 @@ abstract class KController : KoinComponent {
 
     protected fun start(disposable: Disposable) {
         disposeBag.add(disposable)
+    }
+
+    /**
+     * publish new [State] using [kcontrollerScope]
+     */
+    internal fun publish(newState: State<stateData, stateError>){
+        kcontrollerScope.launch {
+            state.emit(newState)
+        }
     }
 }

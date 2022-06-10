@@ -6,6 +6,8 @@
 - [CFlow.kt](#coreflowcflowkt)
 - [KHandler.kt](#coreflowkhandlerkt)
 - [Koin.kt](#coredikoinkt)
+- [RxExtensions.kt](#corerxrxextensionskt)
+- [State.kt](#corestatekt)
 - [KController.kt](#corekcontrollerkt)
 
 ## Useful plugins
@@ -198,10 +200,21 @@
     
     ```
    
+- ## `core/State.kt`
+  - `sealed class` for simple state management built in `KController.kt`
+  - takes parameters `T` for **data type** and `E` for **error type**
+  - *iOS* usage simplified thanks for `fun` inside `State.kt`
+  - *Android* usage as normal `sealed class`
+  - States:
+    - `Success(data: T)`
+    - `Error(error: E)`
+    - `Loading()`
+    - `Empty()`
+
 - ## `core/KController.kt` 
    **in-progress**
    *ViewController/ViewModel* base `class`
-   - `protected fun` seems to **not** be respected in `Swift`
+   - `protected` does **not** exist in `Swift`
     
     ### Dependencies
     ```kotlin
@@ -211,4 +224,7 @@
     // <badoo_reaktive_version = 3.2.0>
     implementation("com.badoo.reaktive:reaktive:<badoo_reaktive_version>")
     implementation("com.badoo.reaktive:coroutines-interop:<badoo_reaktive_version>")
+    
+    // <coroutines_version = 1.6.2>
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:<coroutines_version>")
     ```
