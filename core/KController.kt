@@ -14,16 +14,16 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
 /**
- * Base Controller class simplifies [State] publishing and handling Rx flows
+ * Base Controller class simplifies [KState] publishing and handling Rx flows
  * @author [Luteoos](http://luteoos.dev)
  */
 abstract class KController<stateData, stateError> : KoinComponent {
 
     protected val disposeBag: CompositeDisposable = CompositeDisposable()
     protected val kcontrollerScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
-    protected abstract val state: MutableStateFlow<State<stateData, stateError>>
+    protected abstract val state: MutableStateFlow<KState<stateData, stateError>>
 
-    fun getStateFlow(): StateFlow<State<stateData, stateError>> = state
+    fun getStateFlow(): StateFlow<KState<stateData, stateError>> = state
 
     fun wrapState() = state.wrap()
 
@@ -47,9 +47,9 @@ abstract class KController<stateData, stateError> : KoinComponent {
     }
 
     /**
-     * publish new [State] using [kcontrollerScope]
+     * publish new [KState] using [kcontrollerScope]
      */
-    internal fun publish(newState: State<stateData, stateError>){
+    internal fun publish(newState: KState<stateData, stateError>){
         kcontrollerScope.launch {
             state.emit(newState)
         }

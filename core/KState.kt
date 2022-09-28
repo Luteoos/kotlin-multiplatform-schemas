@@ -5,11 +5,11 @@
 /**
  * Based on [moko - ResourceState](https://github.com/icerockdev/moko-mvvm/blob/master/mvvm-state/src/commonMain/kotlin/dev/icerock/moko/mvvm/ResourceState.kt)
  */
-sealed class State<out T, out E>{
-    class Loading<out T, out E>: State<T, E>()
-    class Empty<out T, out E>: State<T, E>()
-    data class Success<out T, out E>(val content: T) : State<T, E>()
-    data class Error<out T, out E>(val error: E) : State<T, E>()
+sealed class KState<out T, out E>{
+    class Loading<out T, out E>: KState<T, E>()
+    class Empty<out T, out E>: KState<T, E>()
+    data class Success<out T, out E>(val content: T) : KState<T, E>()
+    data class Error<out T, out E>(val error: E) : KState<T, E>()
 
     fun isLoading(): Boolean = this is Loading
     fun isSuccess(): Boolean = this is Success

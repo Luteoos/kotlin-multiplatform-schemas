@@ -7,7 +7,7 @@
 - [KHandler.kt](#coreflowkhandlerkt)
 - [Koin.kt](#coredikoinkt)
 - [RxExtensions.kt](#corerxrxextensionskt)
-- [State.kt](#corestatekt)
+- [KState.kt](#corekstatekt)
 - [KController.kt](#corekcontrollerkt)
 
 ## Useful plugins
@@ -200,10 +200,10 @@
     
     ```
    
-- ## `core/State.kt`
+- ## `core/KState.kt`
   - `sealed class` for simple state management built in `KController.kt`
   - takes parameters `T` for **data type** and `E` for **error type**
-  - *iOS* usage simplified thanks for `fun` inside `State.kt`
+  - *iOS* usage simplified thanks for `fun` inside `KState.kt`
   - *Android* usage as normal `sealed class`
   - States:
     - `Success(data: T)`
