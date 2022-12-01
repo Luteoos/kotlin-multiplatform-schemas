@@ -43,7 +43,7 @@
         implementation(Dependencies.your_dependencies_group["<your_dependency_id>"])
     }
     ```
-2. ## Kotlin new memory model
+2. ## Kotlin new memory model(Deprecated)
    - add to `gradle.properties` 
     ```properties
     # enable new MemModel - no object lock for thread
@@ -227,4 +227,11 @@
     
     // <coroutines_version = 1.6.2>
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:<coroutines_version>")
+    ```
+- ## `core/KControllerInterface.kt`
+    ### Example 
+    ```kotlin
+    interface MyContorllerInterface: KControllerInterface<Data, Data>{
+        //...
+    }
     ```
