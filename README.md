@@ -235,3 +235,24 @@
         //...
     }
     ```
+    Mocking in swift
+    ```swift
+    class MockController : KControllerInterface {
+    func onDeInit() {
+        print("deinit")
+    }
+    
+    func onStart() {
+        print("start")
+    }
+    
+    func onStop() {
+        print("stop")
+    }
+    
+    func watchState() -> CFlow<KState<AnyObject, AnyObject>> {
+        let mockValue = /* MockKState */
+        return CFlowCompanion().getMock(mockValue: mockValue as KState<AnyObject, AnyObject>) as! CFlow<KState<AnyObject, AnyObject>>
+    }
+}
+    ```
