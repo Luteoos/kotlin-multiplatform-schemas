@@ -251,9 +251,9 @@
         print("stop")
     }
     
-    func watchState() -> CFlow<KState<AnyObject, AnyObject>> {
-        let mockValue = /* MockKState */
-        return CFlowCompanion().getMock(mockValue: mockValue as KState<AnyObject, AnyObject>) as! CFlow<KState<AnyObject, AnyObject>>
+        func watchState() -> CFlow<KState> {
+        let mockValue = /* MockState */
+        return CFlowCompanion().getMock(mockValue: mockValue as KState) as! CFlow<KState>
     }
 }
     ```
