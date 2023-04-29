@@ -201,7 +201,7 @@
     ```
    
 - ## `core/KState.kt`
-  - **best use with** [moko-kswift gradle plugin](https://github.com/icerockdev/moko-kswift)
+  - **best use with** [moko-kswift gradle plugin](https://github.com/icerockdev/moko-kswift) or copy `KStateSwift.swift` to ios project **Warning** it might generate fatal error
   - `sealed interface` for simple state management built in `KController.kt`
   - takes parameters `T` for **data type** and `E` for **error type**
   - *iOS* usage simplified thanks for `fun` inside `KState.kt`
