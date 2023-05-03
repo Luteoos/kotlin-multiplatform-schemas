@@ -1,5 +1,7 @@
 # KMM Schemas
 
+**If you have any tips/tricks/ideas you think are worth including please [raise new issue](https://github.com/Luteoos/kotlin-multiplatform-schemas/issues/new)**
+
 ## Overview
 - [buildSrc](#buildsrc)
 - [Kotlin New Memory Model](#kotlin-new-memory-model)
