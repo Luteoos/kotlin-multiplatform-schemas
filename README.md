@@ -4,6 +4,7 @@
 
 ## Overview
 - [buildSrc](#buildsrc)
+- [Sapling](#sapling)
 - [Kotlin New Memory Model](#kotlin-new-memory-model)
 - [CFlow.kt](#coreflowcflowkt)
 - [KHandler.kt](#coreflowkhandlerkt)
@@ -45,7 +46,15 @@
         implementation(Dependencies.your_dependencies_group["<your_dependency_id>"])
     }
     ```
-2. ## Kotlin new memory model(Deprecated)
+- ## Sapling
+  
+  Simple KMP logging library idea-based on [Timber](https://github.com/JakeWharton/timber)
+
+  ### How to use
+  - Copy-paste `Sap.kt` into your project
+  - [Optionally] Change package name
+  
+- ## Kotlin new memory model(Deprecated)
    - add to `gradle.properties` 
     ```properties
     # enable new MemModel - no object lock for thread
