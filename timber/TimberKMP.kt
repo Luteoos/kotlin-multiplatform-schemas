@@ -1,27 +1,27 @@
-package dev.luteoos.sapling
+package dev.luteoos.timber
 
 /**
  *
  * [version = 1]
  * @author Mateusz Lutecki
  */
-object Sap {
+object Timber {
     private val tag: String = "[${this::class.simpleName}.#${this::class.hashCode()}]"
 
     init {
         println(wrapColor("$tag created", AnsiColor.ANSI_BLUE))
     }
 
-    private val saplingList = mutableSetOf<Sapling>()
+    private val treeList = mutableSetOf<Tree>()
 
-    fun plantSapling(sapling: Sapling) {
-        saplingList.add(sapling)
-        println(wrapColor("$tag added Sapling ${sapling.tag}", AnsiColor.ANSI_BLUE))
+    fun plantTree(tree: Tree) {
+        treeList.add(tree)
+        println(wrapColor("$tag added Tree ${tree.tag}", AnsiColor.ANSI_BLUE))
     }
 
     fun clear() {
-        saplingList.clear()
-        println(wrapColor("$tag Sapling list cleared", AnsiColor.ANSI_BLUE))
+        treeList.clear()
+        println(wrapColor("$tag Tree list cleared", AnsiColor.ANSI_BLUE))
     }
 
     fun log(
@@ -32,12 +32,12 @@ object Sap {
         vararg args: Any?
     ) {
         when (level) {
-            LogLevel.ANALYTICS -> saplingList.forEach { it.analytics(message, t, map, *args) }
-            else -> saplingList.forEach { it.log(level, message, t, *args) }
+            LogLevel.ANALYTICS -> treeList.forEach { it.analytics(message, t, map, *args) }
+            else -> treeList.forEach { it.log(level, message, t, *args) }
         }
     }
 
-    abstract class Sapling {
+    abstract class Tree {
         open val tag: String = "[${this::class.simpleName}.#${this::class.hashCode()}]"
 
         abstract fun log(level: LogLevel, message: String, t: Throwable?, vararg args: Any?)
@@ -62,9 +62,9 @@ object Sap {
 
     }
 
-    class DebugSapling : Sapling() {
+    class DebugTree : Tree() {
         override fun log(level: LogLevel, message: String, t: Throwable?, vararg args: Any?) {
-            val messageWithArgs = "Sap.${level} > ${message.basicFormat(*args)}"
+            val messageWithArgs = "Timber-KMP.${level} > ${message.basicFormat(*args)}"
             when (level) {
                 LogLevel.ERROR -> printError(messageWithArgs, t)
                 LogLevel.INFO -> printInfo(messageWithArgs, t)
