@@ -2,26 +2,26 @@ package dev.luteoos.timber
 
 /**
  *
- * [version = 1]
+ * [version = 2]
  * @author Mateusz Lutecki
  */
 object Timber {
-    private val tag: String = "[${this::class.simpleName}.#${this::class.hashCode()}]"
+    private val tag: String = "[${this::class.simpleName}]"
 
     init {
-        println(wrapColor("$tag created", AnsiColor.ANSI_BLUE))
+        println("$tag created")
     }
 
-    private val treeList = mutableSetOf<Tree>()
+    private val forest = mutableSetOf<Tree>()
 
     fun plantTree(tree: Tree) {
-        treeList.add(tree)
-        println(wrapColor("$tag added Tree ${tree.tag}", AnsiColor.ANSI_BLUE))
+        forest.add(tree)
+        println("$tag added Tree ${tree.tag}")
     }
 
     fun clear() {
-        treeList.clear()
-        println(wrapColor("$tag Tree list cleared", AnsiColor.ANSI_BLUE))
+        forest.clear()
+        println("$tag forest cleared")
     }
 
     fun log(
@@ -32,13 +32,13 @@ object Timber {
         vararg args: Any?
     ) {
         when (level) {
-            LogLevel.ANALYTICS -> treeList.forEach { it.analytics(message, t, map, *args) }
-            else -> treeList.forEach { it.log(level, message, t, *args) }
+            LogLevel.ANALYTICS -> forest.forEach { it.analytics(message, t, map, *args) }
+            else -> forest.forEach { it.log(level, message, t, *args) }
         }
     }
 
     abstract class Tree {
-        open val tag: String = "[${this::class.simpleName}.#${this::class.hashCode()}]"
+        open val tag: String = "[${this::class.simpleName}]"
 
         abstract fun log(level: LogLevel, message: String, t: Throwable?, vararg args: Any?)
 
@@ -62,40 +62,14 @@ object Timber {
 
     }
 
-    class DebugTree : Tree() {
+    class GenericDebugTree(private val colorWrap: Boolean = true) : Tree() {
         override fun log(level: LogLevel, message: String, t: Throwable?, vararg args: Any?) {
-            val messageWithArgs = "Timber-KMP.${level} > ${message.basicFormat(*args)}"
+            val messageWithArgs = "Timber.${level}: ${message.basicFormat(*args)}"
             when (level) {
                 LogLevel.ERROR -> printError(messageWithArgs, t)
                 LogLevel.INFO -> printInfo(messageWithArgs, t)
                 LogLevel.WARN -> printWarn(messageWithArgs, t)
                 else -> printDefault(messageWithArgs, t)
-            }
-        }
-
-        private fun printError(messageWithArgs: String, t: Throwable?) {
-            println(wrapColor(messageWithArgs, AnsiColor.ANSI_RED))
-            t?.printStackTrace()
-        }
-
-        private fun printWarn(messageWithArgs: String, t: Throwable?) {
-            println(wrapColor(messageWithArgs, AnsiColor.ANSI_YELLOW))
-            t?.let {
-                print(wrapColor(it.stackTraceToString(), AnsiColor.ANSI_YELLOW))
-            }
-        }
-
-        private fun printInfo(messageWithArgs: String, t: Throwable?) {
-            println(wrapColor(messageWithArgs, AnsiColor.ANSI_BLUE))
-            t?.let {
-                print(wrapColor(it.stackTraceToString(), AnsiColor.ANSI_BLUE))
-            }
-        }
-
-        private fun printDefault(messageWithArgs: String, t: Throwable?) {
-            println(messageWithArgs)
-            t?.let {
-                print(it.stackTraceToString())
             }
         }
 
@@ -105,19 +79,82 @@ object Timber {
             map: Map<String, String>,
             vararg args: Any?
         ) {
-            println("Analytics received: ${message.basicFormat(*args)}")
-            t?.let {
-                println("Throwable: ${t.message}")
-                t.printStackTrace()
-            }
-            if (map.isNotEmpty())
-                println(
-                    "Map: ${
-                        map.map { "$ { it.key }->${it.value}" }
-                            .reduce { string, it -> "$string, $it" }
-                    }"
-                )
+            println(buildString {
+                append("Timber.ANALYTICS: ${message.basicFormat(*args)}")
+                t?.let {
+                    append("\n\t")
+                    append(it.stackTraceToString())
+                }
+                map.forEach {
+                    append("\n\t" + it.key + " -> " + it.value)
+                }
+            })
         }
+
+        private fun printError(messageWithArgs: String, t: Throwable?) {
+            println(buildString {
+                append(wrapColor(messageWithArgs, AnsiColor.ANSI_RED))
+                append("\n")
+                t?.let {
+                    append(wrapColor(it.stackTraceToString(), AnsiColor.ANSI_RED))
+                }
+            })
+        }
+
+        private fun printWarn(messageWithArgs: String, t: Throwable?) {
+            println(buildString {
+                append(wrapColor(messageWithArgs, AnsiColor.ANSI_YELLOW))
+                append("\n")
+                t?.let {
+                    append(wrapColor(it.stackTraceToString(), AnsiColor.ANSI_YELLOW))
+                }
+            })
+        }
+
+        private fun printInfo(messageWithArgs: String, t: Throwable?) {
+            println(buildString {
+                append(wrapColor(messageWithArgs, AnsiColor.ANSI_BLUE))
+                append("\n")
+                t?.let {
+                    append(wrapColor(it.stackTraceToString(), AnsiColor.ANSI_BLUE))
+                }
+            })
+        }
+
+        private fun printDefault(messageWithArgs: String, t: Throwable?) {
+            println(buildString {
+                append(messageWithArgs)
+                append("\n")
+                t?.let {
+                    append(it.stackTraceToString())
+                }
+            })
+        }
+
+        private enum class AnsiColor(val value: String) {
+            ANSI_RESET("\u001B[0m"),
+            ANSI_BLACK("\u001B[30m"),
+            ANSI_RED("\u001B[31m"),
+            ANSI_GREEN("\u001B[32m"),
+            ANSI_LIGHT_YELLOW("\u001B[93m"),
+            ANSI_YELLOW("\u001B[33m"),
+            ANSI_YELLOW_BACKGROUND("\u001B[43m"),
+            ANSI_BLUE("\u001B[34m"),
+            ANSI_PURPLE("\u001B[35m"),
+            ANSI_CYAN("\u001B[36m"),
+            ANSI_WHITE("\u001B[37m"),
+            ANSI_BOLD("\u001B[1m"),
+            ANSI_UNBOLD("\u001B[21m"),
+            ANSI_UNDERLINE("\u001B[4m"),
+            ANSI_STOP_UNDERLINE("\u001B[24m"),
+            ANSI_BLINK("\u001B[5m"),
+        }
+
+        private inline fun wrapColor(message: String, color: AnsiColor) =
+            if (colorWrap)
+                "${color.value}$message${AnsiColor.ANSI_RESET.value}"
+            else
+                message
 
     }
 
@@ -134,28 +171,6 @@ object Timber {
         WARN(5),
 
     }
-
-    private enum class AnsiColor(val value: String) {
-        ANSI_RESET("\u001B[0m"),
-        ANSI_BLACK("\u001B[30m"),
-        ANSI_RED("\u001B[31m"),
-        ANSI_GREEN("\u001B[32m"),
-        ANSI_LIGHT_YELLOW("\u001B[93m"),
-        ANSI_YELLOW("\u001B[33m"),
-        ANSI_YELLOW_BACKGROUND("\u001B[43m"),
-        ANSI_BLUE("\u001B[34m"),
-        ANSI_PURPLE("\u001B[35m"),
-        ANSI_CYAN("\u001B[36m"),
-        ANSI_WHITE("\u001B[37m"),
-        ANSI_BOLD("\u001B[1m"),
-        ANSI_UNBOLD("\u001B[21m"),
-        ANSI_UNDERLINE("\u001B[4m"),
-        ANSI_STOP_UNDERLINE("\u001B[24m"),
-        ANSI_BLINK("\u001B[5m"),
-    }
-
-    private inline fun wrapColor(message: String, color: AnsiColor) =
-        "${color.value}$message${AnsiColor.ANSI_RESET.value}"
 
     fun e(message: String, t: Throwable?, vararg args: Any?) =
         log(LogLevel.ERROR, message, t, mapOf(), *args)
